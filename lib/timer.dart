@@ -13,14 +13,19 @@ class _TimerWidgetState extends State<TimerWidget> {
   Timer? _timer;
   int _value = 0;
   bool _running = false;
+  Stopwatch? _stopwatch;
 
   void startTimer() {
-    const oneSec = const Duration(seconds: 1);
+    if (_stopwatch == null) {
+      _stopwatch = new Stopwatch();
+    }
+    _stopwatch!.start();
+    const updateRate = const Duration(milliseconds: 500);
     _timer = new Timer.periodic(
-        oneSec,
+        updateRate,
         (Timer timer) => setState(() {
               if (_running) {
-                _value = _value + 1;
+                _value = _stopwatch!.elapsedMilliseconds ~/ 1000;
               }
             }));
   }
@@ -34,10 +39,14 @@ class _TimerWidgetState extends State<TimerWidget> {
     } else if (!_running && _timer != null) {
       _timer?.cancel();
       _timer = null;
+      if (_stopwatch?.isRunning ?? false) {
+        _stopwatch!.stop();
+      }
     }
   }
 
   void resetValue() {
+    _stopwatch?.reset();
     setState(() {
       _value = 0;
     });
