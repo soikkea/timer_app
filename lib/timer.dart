@@ -26,13 +26,21 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   void toggleTimer() {
-    _running = !_running;
+    setState(() {
+      _running = !_running;
+    });
     if (_running && _timer == null) {
       startTimer();
     } else if (!_running && _timer != null) {
       _timer?.cancel();
       _timer = null;
     }
+  }
+
+  void resetValue() {
+    setState(() {
+      _value = 0;
+    });
   }
 
   @override
@@ -52,7 +60,8 @@ class _TimerWidgetState extends State<TimerWidget> {
               onPressed: () {
                 toggleTimer();
               },
-              child: Text("start/stop"))
+              child: Text(_running ? "stop" : "start")),
+          ElevatedButton(onPressed: resetValue, child: Text("Reset"))
         ],
       ),
     );
