@@ -11,23 +11,14 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> {
   Timer? _timer;
-  int _value = 0;
   bool _running = false;
-  Stopwatch? _stopwatch;
+  Stopwatch _stopwatch = new Stopwatch();
+  Duration get elapsedTime => _stopwatch.elapsed;
 
   void startTimer() {
-    if (_stopwatch == null) {
-      _stopwatch = new Stopwatch();
-    }
-    _stopwatch!.start();
-    const updateRate = const Duration(milliseconds: 500);
-    _timer = new Timer.periodic(
-        updateRate,
-        (Timer timer) => setState(() {
-              if (_running) {
-                _value = _stopwatch!.elapsedMilliseconds ~/ 1000;
-              }
-            }));
+    _stopwatch.start();
+    const updateRate = const Duration(milliseconds: 50);
+    _timer = new Timer.periodic(updateRate, (Timer timer) => setState(() {}));
   }
 
   void toggleTimer() {
@@ -39,17 +30,19 @@ class _TimerWidgetState extends State<TimerWidget> {
     } else if (!_running && _timer != null) {
       _timer?.cancel();
       _timer = null;
-      if (_stopwatch?.isRunning ?? false) {
-        _stopwatch!.stop();
+      if (_stopwatch.isRunning) {
+        _stopwatch.stop();
       }
     }
   }
 
   void resetValue() {
-    _stopwatch?.reset();
-    setState(() {
-      _value = 0;
-    });
+    _stopwatch.reset();
+    setState(() {});
+  }
+
+  String _formatValue() {
+    return elapsedTime.toString().substring(0, 10);
   }
 
   @override
@@ -64,7 +57,11 @@ class _TimerWidgetState extends State<TimerWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("$_value"),
+          Text(
+            "${_formatValue()}",
+            style:
+                DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
+          ),
           ElevatedButton(
               onPressed: () {
                 toggleTimer();
