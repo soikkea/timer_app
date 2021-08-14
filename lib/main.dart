@@ -24,6 +24,9 @@ class TimerApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+      darkTheme: ThemeData(
+          brightness: Brightness.dark, primarySwatch: Colors.lightGreen),
+      themeMode: ThemeMode.dark,
       home: HomePage(title: "Timer App"),
     );
   }
