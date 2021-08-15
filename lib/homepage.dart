@@ -10,10 +10,26 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: Center(child: TimerWidget()));
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text(title),
+              bottom: const TabBar(tabs: [
+                Tab(
+                  text: "Timer",
+                ),
+                Tab(
+                  text: "Countdown",
+                )
+              ]),
+            ),
+            body: TabBarView(children: [_timerTab(), _countdownTab()])));
   }
+
+  Center _timerTab() => Center(child: TimerWidget());
+
+  Widget _countdownTab() => Center(
+        child: Text("TODO"),
+      );
 }
