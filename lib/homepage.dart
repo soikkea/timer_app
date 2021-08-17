@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:timer_app/countdown.dart';
 
 import 'timer.dart';
 
@@ -30,6 +31,6 @@ class HomePage extends StatelessWidget {
   Center _timerTab() => Center(child: TimerWidget());
 
   Widget _countdownTab() => Center(
-        child: Text("TODO"),
+        child: CountdownWidget(),
       );
 }
