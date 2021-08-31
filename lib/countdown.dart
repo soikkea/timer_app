@@ -30,6 +30,9 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   TimeOfDay? get _targetTimeOfDay =>
       _target == null ? null : TimeOfDay.fromDateTime(_target!);
 
+  Duration get _durationToTarget =>
+      _target == null ? Duration() : _target!.difference(DateTime.now());
+
   String get _timeToTarget => _target?.toIso8601String() ?? "";
 
   Future<void> _setTargetPressed() async {
@@ -65,6 +68,11 @@ class _CountdownWidgetState extends State<CountdownWidget> {
         children: [
           Text(
             _timeToTarget,
+            style:
+                DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
+          ),
+          Text(
+            _durationToTarget.toString(),
             style:
                 DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
           ),
