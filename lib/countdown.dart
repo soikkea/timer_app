@@ -27,6 +27,9 @@ class _CountdownWidgetState extends State<CountdownWidget> {
     super.dispose();
   }
 
+  TimeOfDay? get _targetTimeOfDay =>
+      _target == null ? null : TimeOfDay.fromDateTime(_target!);
+
   String get _timeToTarget => _target?.toIso8601String() ?? "";
 
   Future<void> _setTargetPressed() async {
@@ -37,8 +40,8 @@ class _CountdownWidgetState extends State<CountdownWidget> {
         firstDate: DateTime(1900),
         lastDate: DateTime(2100));
     if (date != null) {
-      final time =
-          await showTimePicker(context: context, initialTime: TimeOfDay.now());
+      final time = await showTimePicker(
+          context: context, initialTime: _targetTimeOfDay ?? TimeOfDay.now());
       if (time != null) {
         _setTarget(date, time);
       }
