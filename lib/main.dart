@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:timer_app/homepage.dart';
 
@@ -28,6 +29,15 @@ class TimerApp extends StatelessWidget {
           brightness: Brightness.dark, primarySwatch: Colors.lightGreen),
       themeMode: ThemeMode.dark,
       home: HomePage(title: "Timer App"),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [
+        const Locale('fi', 'FI'),
+        const Locale('fi', ''),
+        const Locale('en', '')
+      ],
     );
   }
 }

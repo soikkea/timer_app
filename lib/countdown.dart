@@ -33,6 +33,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
     final date = await showDatePicker(
         context: context,
         initialDate: _target ?? DateTime.now(),
+        locale: const Locale("fi", ""),
         firstDate: DateTime(1900),
         lastDate: DateTime(2100));
     if (date != null) {
