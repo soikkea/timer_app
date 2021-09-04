@@ -12,6 +12,7 @@ class CountdownWidget extends StatefulWidget {
 class _CountdownWidgetState extends State<CountdownWidget> {
   Timer? _timer;
   DateTime? _target;
+  Duration _duration = new Duration();
 
   @override
   void initState() {
@@ -25,6 +26,15 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   void dispose() {
     _timer?.cancel();
     super.dispose();
+  }
+
+  void _startTimer() {
+    const updateRate = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+        updateRate,
+        (Timer timer) => setState(() {
+              _duration = _durationToTarget;
+            }));
   }
 
   TimeOfDay? get _targetTimeOfDay =>
@@ -57,6 +67,24 @@ class _CountdownWidgetState extends State<CountdownWidget> {
     setState(() {
       _target = dateTime;
     });
+    if (_timer == null || !(_timer!.isActive)) {
+      _startTimer();
+    }
+  }
+
+  String padNumber(int number) {
+    return number.toString().padLeft(2, "0");
+  }
+
+  String formatDuration() {
+    final duration = _duration;
+    final days = duration.inDays;
+    final hours = duration.inHours % 24;
+    final minutes = duration.inMinutes % 60;
+    final seconds = duration.inSeconds % 60;
+    final output =
+        '${days.toString()} d, ${padNumber(hours)}:${padNumber(minutes)}:${padNumber(seconds)}';
+    return output;
   }
 
   @override
@@ -68,11 +96,9 @@ class _CountdownWidgetState extends State<CountdownWidget> {
         children: [
           Text(
             _timeToTarget,
-            style:
-                DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
           ),
           Text(
-            _durationToTarget.toString(),
+            "${formatDuration()}",
             style:
                 DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
           ),
