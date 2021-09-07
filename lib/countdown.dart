@@ -44,8 +44,6 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   Duration get _durationToTarget =>
       _target == null ? Duration() : _target!.difference(DateTime.now());
 
-  String get _timeToTarget => _target?.toIso8601String() ?? "";
-
   Future<void> _setTargetPressed() async {
     final date = await showDatePicker(
         context: context,
