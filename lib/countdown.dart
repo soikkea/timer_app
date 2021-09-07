@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CountdownWidget extends StatefulWidget {
   const CountdownWidget({Key? key}) : super(key: key);
@@ -76,6 +77,13 @@ class _CountdownWidgetState extends State<CountdownWidget> {
     return number.toString().padLeft(2, "0");
   }
 
+  String _formatTarget() {
+    if (_target == null) {
+      return "";
+    }
+    return DateFormat("yyyy-MM-dd HH:mm").format(_target!);
+  }
+
   String formatDuration() {
     final duration = _duration;
     final days = duration.inDays;
@@ -95,7 +103,8 @@ class _CountdownWidgetState extends State<CountdownWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            _timeToTarget,
+            "Counting down to:\n${_formatTarget()}",
+            textAlign: TextAlign.center,
           ),
           Text(
             "${formatDuration()}",
